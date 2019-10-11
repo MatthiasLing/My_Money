@@ -336,7 +336,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                           }
 
                           Entry entry = Entry(
-                              name: name,
+                              name: name ?? '',
                               amount: amt,
                               //all tags stored in lowercase
                               tagString:

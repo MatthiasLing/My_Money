@@ -5,6 +5,7 @@ import 'package:my_money/database/database_helper.dart';
 import 'package:my_money/engine/entry.dart';
 import 'package:my_money/screens/overview_screen.dart';
 import 'package:my_money/screens/search_screen.dart';
+import 'package:my_money/screens/home_screen.dart';
 
 final db = EntryDataBase();
 
@@ -44,7 +45,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                     Padding(
                         padding: EdgeInsets.only(
                           left: 10,
-                          top: 20,
+                          top: 40,
                           right: 5,
                           bottom: 5,
                         ),
@@ -56,7 +57,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                       endIndent: 5,
                     ),
                     Container(
-                        height: 550,
+                        height: size.height - 190,
                         child: ListView.builder(
                           itemCount: entryList.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -106,7 +107,9 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                                                                     onPressed:
                                                                         () async {
                                                                       //delete entry;
-
+                                                                      await db.removeEntry(
+                                                                          entry
+                                                                              .id);
                                                                       setState(
                                                                           () {
                                                                         if (entry.type ==
@@ -153,18 +156,15 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                                                                                 budget);
                                                                           }
                                                                         }
+
                                                                         wkSearch
                                                                             .remove(entry);
                                                                         entryList
                                                                             .remove(entry);
-                                                                      });
-                                                                      await db.removeEntry(
-                                                                          entry
-                                                                              .id);
-                                                                      setState(
-                                                                          () {
+
                                                                         db.getLastWeek();
                                                                       });
+
                                                                       Navigator.pop(
                                                                           context);
                                                                     })),
@@ -307,9 +307,6 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                         textConstruct('spent this wk', Colors.black, false, 14),
                       ]),
                   onPressed: () {
-                    setState(() {
-                      // db.getLastWeek();
-                    });
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -347,6 +344,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                                             Entry entry = wkSearch[
                                                 wkSearch.length - 1 - index];
 
+                                            //entrybutton
                                             return FlatButton(
                                               child: expenseButton(entry),
                                               onPressed: () {
@@ -358,7 +356,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                                                         content: Container(
                                                           height: (entry.tags !=
                                                                   null)
-                                                              ? 430
+                                                              ? 450
                                                               : 300,
                                                           width: 275,
                                                           child: Column(
@@ -382,7 +380,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                                                                 padding:
                                                                     EdgeInsets
                                                                         .all(
-                                                                            8.0),
+                                                                            7.0),
                                                                 child: Divider(
                                                                   color: Colors
                                                                       .black,
@@ -559,9 +557,6 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
 
                                   //remaining budget
                                   Container(
-                                    // padding: EdgeInsets.only(
-                                    //   bottom: 10,
-                                    // ),
                                     child: Row(children: [
                                       textConstruct(
                                           '\$${budget.toStringAsFixed(2)}',
@@ -592,32 +587,12 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                                                 true,
                                                 25),
                                             Container(
-                                                padding: EdgeInsets.only(
-                                                  left: 10,
-                                                ),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    textConstruct(
-                                                        'Initital',
-                                                        Colors.blueGrey,
-                                                        false,
-                                                        20),
-                                                    textConstruct(
-                                                        '${hrs.toStringAsFixed(2)} hrs worked',
-                                                        Colors.grey,
-                                                        false,
-                                                        15),
-                                                    textConstruct(
-                                                        '\$${rate.toStringAsFixed(2)}/hr',
-                                                        Colors.grey,
-                                                        false,
-                                                        15),
-                                                  ],
-                                                ))
+                                              padding: EdgeInsets.only(
+                                                left: 20,
+                                              ),
+                                              child: textConstruct('Initial',
+                                                  Colors.blueGrey, false, 20),
+                                            )
                                           ],
                                         ),
                                       ])),
@@ -635,7 +610,7 @@ class _TotalExpenseScreenState extends State<TotalExpenseScreen> {
                                           25),
                                       Container(
                                         padding: EdgeInsets.only(
-                                          left: 10,
+                                          left: 20,
                                         ),
                                         child: textConstruct('Spent',
                                             Colors.blueGrey, false, 20),

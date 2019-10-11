@@ -140,6 +140,21 @@ Future<void> updateBudgetPrefs() async {
   pct = await getDouble('pct');
 }
 
+Future<String> getUser(String key) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String ret = prefs.getString(key);
+  if (ret == null) {
+    return null;
+  }
+  return ret;
+}
+
+Future<bool> setUser(String key, String str) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString(key, str);
+  return prefs.commit();
+}
+
 Future<double> getDouble(String key) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   double ret = prefs.getDouble(key);

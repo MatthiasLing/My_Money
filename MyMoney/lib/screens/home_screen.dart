@@ -3,10 +3,12 @@ import 'package:pin_code_view/pin_code_view.dart';
 import 'overview_screen.dart';
 import 'new_expense_screen.dart';
 import 'package:my_money/engine/engine.dart';
+import 'package:my_money/main.dart';
+
+Size size;
 
 void initBudgetBalances() async {
   getDouble('budget').then((double value) {
-    print(value);
     if (value == null) {
       budget = 0;
       setDouble('budget', 0);
@@ -68,10 +70,10 @@ class HomeScreen extends StatefulWidget {
   HomeScreen({this.unlocked});
 
   @override
-  _homeScreenState createState() => _homeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _homeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   bool hasError = false;
   //goes to the overview screen
   @override
@@ -82,6 +84,7 @@ class _homeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return new Scaffold(
       body: PageView(
         scrollDirection: Axis.vertical,
@@ -92,7 +95,7 @@ class _homeScreenState extends State<HomeScreen> {
                 child: PinCode(
                   obscurePin: true,
                   title: Text(
-                    "Matthias",
+                    "Welcome " + username,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 25.0,
@@ -102,8 +105,8 @@ class _homeScreenState extends State<HomeScreen> {
                     "Scroll up to record new expense",
                     style: TextStyle(color: Colors.greenAccent, fontSize: 15),
                   ),
-                  codeLength: 4,
-                  correctPin: "4265",
+                  codeLength: password.length,
+                  correctPin: password,
                   onCodeSuccess: (code) {
                     this.hasError = false;
                     Navigator.push(
@@ -117,7 +120,6 @@ class _homeScreenState extends State<HomeScreen> {
                     setState(() {
                       hasError = true;
                     });
-                    print(code);
                   },
                 ),
               ),
