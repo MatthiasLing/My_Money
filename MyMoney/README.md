@@ -10,7 +10,7 @@ Settings and entries are saved via Shared Preferences and SQLite database respec
 
 # Intention and Usage
 
-My Money in its current state has only been tested for the iPhone 8 and is intended for private use (hence the local password and name).  To customize simply change these fields in the home_screen.dart file.
+Save dat money
 
 
 
